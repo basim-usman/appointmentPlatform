@@ -359,8 +359,8 @@ function cancelSchedule(param){
 function validateAppointmentTime()
 {
     //  7am  - 8pm
-
-    var hourArray = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"];
+    console.log(" Basim");
+    var hourArray = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20"];
     var realStart = $("#timestart").val();
     var start     = $("#stimestart").val();
     start         = convertTo24Hour(start.toLowerCase());
@@ -377,8 +377,7 @@ function validateAppointmentTime()
        
     var eHr       = end.split(":");
     eHr           = eHr[0];
-     
-   
+  console.log(sHr);
     if(hourArray.indexOf(sHr) !== -1){
    
           $("#failedNotificationTime").hide();
@@ -410,7 +409,7 @@ function validateAppointmentTimeGuardian()
 {
     //  7am  - 8pm
 
-    var hourArray = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"];
+    var hourArray = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20"];
     var realStart = $("#timestart").val();
     var start     = $("#stimestart").val();
     start         = convertTo24Hour(start.toLowerCase());
