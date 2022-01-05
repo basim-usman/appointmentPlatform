@@ -1866,6 +1866,99 @@ function bookScheduleGuardian(){
 }
 /*GUARDIAN END */
 
+
+/*Admin Start*/
+
+function scanUsernameAdmin (){
+
+  const username = $("#username").val();
+
+  if(username!=""){
+    $("#usernameerror").hide();
+
+
+      var json_data = {
+      username: username,
+
+       }; // end json_data
+
+      $.post(
+            "../ajax.php",
+            {
+              function_to_run: "scanUsernameAdmin",
+              data: json_data,
+            },
+            function (response) {
+              var res = JSON.parse(response);
+
+              if (res.data == "true") {
+
+                 $("#usernameerror").text("");
+                 $("#usernameerror").hide();
+                 $("#reg_btn").removeAttr("disabled");
+              
+                
+               
+              } else if (res.data == "false" ) {
+
+                $("#usernameerror").text(username+ " Already Exist");
+                $("#usernameerror").show();
+                $("#reg_btn").attr("disabled", true);
+      
+              
+              }
+            }
+          );
+    }else {
+       $("#usernameerror").text("Provide Username");
+        $("#usernameerror").show();    
+    }
+}
+function scanStudentMail(){
+  var email =  $("#email").val();
+
+  if (/@calamba\.sti\.edu\.ph/.test(email)) 
+  {
+     $("#emailerror").text("");
+     $( "#reg_btn" ).prop( "disabled", false );
+
+          var json_data = {email : email }; // end json_data
+
+                $.post(
+                 "../ajax.php",
+                {
+                  function_to_run: "scanStudentMail",
+                  data: json_data,
+                },
+                function (response) {
+                  var res = JSON.parse(response);
+                 
+                   if (res.data == "true")
+                    {
+
+                       $("#emailerror").text("");
+                       $("#emailerror").hide();
+                       $("#reg_btn").removeAttr("disabled");
+
+                             
+                    } else if (res.data == "false" ) {
+
+                       $("#emailerror").text(email+" Already exist");
+                       $("#emailerror").show();
+                        $("#reg_btn").attr("disabled", true);
+            
+                    
+                    }
+                }
+              );
+  }else{
+
+      $("#emailerror").text("Please provide your school valid email (calamba.sti.edu.ph)");
+      $( "#reg_btn" ).prop( "disabled", true );
+
+  }
+}
+/*Admin END*/
 /* General Fucntions START*/
 function validatePassword(){
 

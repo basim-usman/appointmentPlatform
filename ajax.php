@@ -393,6 +393,18 @@ switch ($_POST['function_to_run']) {
             }     
         break;
          /* END GUARDIANS*/
+        case 'scanUsernameAdmin': 
+                        
+            $result = $admin->scanUsernameAdmin();
+
+            if($result){
+                    echo  json_encode(array("data" => "true"));
+
+            }else{
+                  echo  json_encode(array("data" => "false"));
+
+            }
+        break;
         case 'cancelSchedule':
 
              $result = $student->cancelSchedule();

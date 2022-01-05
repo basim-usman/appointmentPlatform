@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 27, 2021 at 04:17 PM
+-- Generation Time: Jan 05, 2022 at 05:54 AM
 -- Server version: 5.7.36-0ubuntu0.18.04.1
 -- PHP Version: 7.2.34-23+ubuntu18.04.1+deb.sury.org+1
 
@@ -60,6 +60,7 @@ CREATE TABLE `bookings` (
   `b_date` varchar(255) NOT NULL,
   `mode` varchar(255) NOT NULL COMMENT '("chat","ftf")',
   `status` varchar(255) NOT NULL COMMENT '("booked","open","done","reschedule")',
+  `booking_reason` varchar(255) NOT NULL,
   `chat_link` varchar(255) DEFAULT NULL,
   `notification` varchar(255) DEFAULT NULL,
   `reason` varchar(255) DEFAULT NULL,
@@ -85,6 +86,7 @@ CREATE TABLE `guardians` (
   `phone_number` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL COMMENT '("open,"booked","delete")',
+  `relation_id` varchar(11) NOT NULL,
   `added_date` varchar(255) NOT NULL,
   `updated_date` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
@@ -103,6 +105,15 @@ CREATE TABLE `news` (
   `added_date` varchar(255) NOT NULL,
   `updated_date` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
+
+--
+-- Dumping data for table `news`
+--
+
+INSERT INTO `news` (`n_id`, `title`, `description`, `status`, `added_date`, `updated_date`) VALUES
+(1, 'COVID-19 VACCINE PROBLEM', 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available\n\nIn publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available\n\nIn publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available', 'hot', '2021-11-27', NULL),
+(2, 'BE HAPPY', 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available', 'hot', '2022-01-04', NULL),
+(3, 'Normal', 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available', 'old', '2022-01-04', NULL);
 
 -- --------------------------------------------------------
 
@@ -234,7 +245,7 @@ ALTER TABLE `guardians`
 -- AUTO_INCREMENT for table `news`
 --
 ALTER TABLE `news`
-  MODIFY `n_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `n_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `schedules`
 --
