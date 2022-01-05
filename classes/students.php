@@ -557,9 +557,11 @@ class Students extends DbAccess {
 			$status =strval($_POST['data']['status']);
 			$total =strval($_POST['data']['total']);
 			$t_id =trim($_POST['data']['t_id']);
+			$bookingReason =trim($_POST['data']['bookingReason']);
+			
 			
 			if(!isset($_POST['data']['stat'])){
-					$attribute ="sc_id,t_id,appoint_id,u_type,b_time_start,b_time_end,b_date,mode,status,added_date,updated_date";
+					$attribute ="sc_id,t_id,appoint_id,u_type,b_time_start,b_time_end,b_date,mode,status,booking_reason,added_date,updated_date";
 					$u_type    = 'student';
 					$values    = "'".$sc_id."',
 								'".$t_id."',
@@ -570,6 +572,7 @@ class Students extends DbAccess {
 								'".trim($date)."',
 								'".trim($mode)."',
 								'".trim($status)."',
+								'".trim($bookingReason)."',
 								'".date("Y-m-d")."',
 								 NULL";
 						if($this->insertRecord($table,$attribute,$values))

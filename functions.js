@@ -293,6 +293,8 @@ function validateAppointmentTime()
     //  7am  - 8pm
     var hourArray = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20"];
     var realStart = $("#timestart").val();
+    var loopStart = realStart.split(":");
+    loopStart      = parseInt(loopStart[0]); 
     var start     = $("#stimestart").val();
     start         = convertTo24Hour(start.toLowerCase());
     realStart     = convertTo12Hour(realStart.trim());
@@ -302,13 +304,38 @@ function validateAppointmentTime()
 
     var end       = $("#stimeend").val();
     var realEnd   =$("#timeend").val();
+    var loopEnd = realEnd.split(":");
+    loopEnd     = parseInt(loopEnd[0]);
      
         end       = convertTo24Hour(end.toLowerCase());
         realEnd   = convertTo12Hour(realEnd.trim());
        
     var eHr       = end.split(":");
     eHr           = eHr[0];
-    if(hourArray.indexOf(sHr) !== -1){
+
+    var hourArray1 = [];
+    var differLoop = loopEnd-loopStart;
+    
+     for(var i = 0; i<=differLoop;i++ ){
+        if(loopStart<10){
+          hourArray1[i]= "0"+loopStart;
+        }else{
+           hourArray1[i]= loopStart;
+        }
+        
+        loopStart++;
+
+     }
+    //
+  
+   
+  
+   
+   
+   
+  
+    //
+    if(hourArray1.indexOf(sHr) !== -1){
    
           $("#failedNotificationTime").hide();
           $("#failedNotificationTime").css('display','none');
@@ -321,7 +348,7 @@ function validateAppointmentTime()
        $("#failedNotificationTime").show();
       }
 
-     if(hourArray.indexOf(eHr) !== -1){
+     if(hourArray1.indexOf(eHr) !== -1){
           $("#failedNotificationTime").hide();
           $("#failedNotificationTime").css('display','none');
           $("#reg_btn").attr('disabled',false);
@@ -501,13 +528,15 @@ function bookSchedule(param = null){
   var stime_start   = $("#stimestart").val();
   var stime_end     = $("#stimeend").val();
 
+  var bookingReason = $("#bookingReason").val();
+
 
 
 
   $("#descriptionerror").hide();
   
 
-  if (date !== "" && sc_id !== ""&& st_id !== ""&& mode !== "" && status !== "" && total !== "" && t_id !== "") {
+  if (date !== "" && sc_id !== ""&& st_id !== ""&& mode !== "" && status !== "" && total !== "" && t_id !== "" && bookingReason!="") {
 
     $("#descriptionerror").hide();
   
@@ -521,7 +550,8 @@ function bookSchedule(param = null){
                       mode: mode,
                       status:status,
                       total:total,
-                      t_id:t_id
+                      t_id:t_id,
+                      bookingReason:bookingReason
                     }; // end json_data
 
     if(param != null){
@@ -550,7 +580,8 @@ function bookSchedule(param = null){
                       mode: mode,
                       status:status,
                       total:total,
-                      t_id:t_id
+                      t_id:t_id,
+                      bookingReason:bookingReason
                     }; // end json_data       
     }                
       
@@ -1893,16 +1924,16 @@ function scanUsernameAdmin (){
 
               if (res.data == "true") {
 
-                 $("#usernameerror").text("");
-                 $("#usernameerror").hide();
+                 $("#adminusernameerror").text("");
+                 $("#adminusernameerror").hide();
                  $("#reg_btn").removeAttr("disabled");
               
                 
                
               } else if (res.data == "false" ) {
 
-                $("#usernameerror").text(username+ " Already Exist");
-                $("#usernameerror").show();
+                $("#adminusernameerror").text(username+ " Already Exist");
+                $("#adminusernameerror").show();
                 $("#reg_btn").attr("disabled", true);
       
               
@@ -1910,14 +1941,14 @@ function scanUsernameAdmin (){
             }
           );
     }else {
-       $("#usernameerror").text("Provide Username");
-        $("#usernameerror").show();    
+       $("#adminusernameerror").text("Provide Username");
+        $("#adminusernameerror").show();    
     }
 }
-function scanStudentMail(){
+function scanAdminMail(){
   var email =  $("#email").val();
 
-  if (/@calamba\.sti\.edu\.ph/.test(email)) 
+  if ( (/@yahoo\.com/.test(email)) || (/@gmail\.com/.test(email)) || (/@outlook\.com/.test(email)) ) 
   {
      $("#emailerror").text("");
      $( "#reg_btn" ).prop( "disabled", false );
@@ -1927,7 +1958,7 @@ function scanStudentMail(){
                 $.post(
                  "../ajax.php",
                 {
-                  function_to_run: "scanStudentMail",
+                  function_to_run: "scanAdminMail",
                   data: json_data,
                 },
                 function (response) {
@@ -1936,15 +1967,15 @@ function scanStudentMail(){
                    if (res.data == "true")
                     {
 
-                       $("#emailerror").text("");
-                       $("#emailerror").hide();
+                       $("#adminemailerror").text("");
+                       $("#adminemailerror").hide();
                        $("#reg_btn").removeAttr("disabled");
 
                              
                     } else if (res.data == "false" ) {
 
-                       $("#emailerror").text(email+" Already exist");
-                       $("#emailerror").show();
+                       $("#adminemailerror").text(email+" Already exist");
+                       $("#adminemailerror").show();
                         $("#reg_btn").attr("disabled", true);
             
                     
@@ -1953,11 +1984,103 @@ function scanStudentMail(){
               );
   }else{
 
-      $("#emailerror").text("Please provide your school valid email (calamba.sti.edu.ph)");
+      $("#adminemailerror").text("Please provide valid email (gmail,yahoo,outlook)");
       $( "#reg_btn" ).prop( "disabled", true );
 
   }
 }
+
+function adminValidate(){
+
+  var fname        = $("#fullname").val();
+  var username     = $("#username").val();
+  var email        = $("#email").val();
+  var password     = $("#password").val();
+  var cpassword    = $("#cpassword").val();
+    
+    $("#fullnameerror").hide(); 
+    $("#adminusernameerror").hide();
+    $("#adminemailerror").hide(); 
+    $("#passworderror").hide();
+    $("#confirmpassworderror").hide();
+  
+  if (fname != "" && username != ""  && email!= ""   && password != "" && cpassword != ""  ) 
+  {
+    $("#fullnameerror").hide(); 
+    $("#adminusernameerror").hide();
+    $("#adminemailerror").hide(); 
+    $("#passworderror").hide();
+    $("#confirmpassworderror").hide();
+    // $("#loginerror").hide();
+       $("#process").show();
+
+     // studentRegister(fname,lname,username,email,phone_number,address,password,status);
+
+  } else if(fname == ""){
+    $("#fullnameerror").text("Provide Valid Full Name");
+    $("#fullnameerror").show(); 
+ }else if(username == ""){
+    $("#adminusernameerror").text("Provide Valid Username");
+    $("#adminusernameerror").show(); 
+  }else if(email == ""){
+    $("#adminemailerror").text("Provide Valid Email");
+    $("#adminemailerror").show(); 
+  }else if(address == ""){
+    $("#addresserror").text("Provide Valid Address");
+    $("#addresserror").show(); 
+  }else if(password =="") {
+    $("#passworderror").text("Provide Valid Password");
+    $("#passworderror").show();
+
+  }else if(cpassword == ""){
+    $("#confirmpassworderror").text("Provide Valid Confirm Password");
+    $("#confirmpassworderror").show();
+
+  }
+}
+
+// function studentRegister(fname,lname,username,email,phone_number,address,password,status) {
+//   // body...
+//   var json_data = { first_name   : fname,
+//                     last_name    : lname,
+//                     username     : username,
+//                     email        : email,
+//                     phone_number : phone_number,
+//                     address      : address,
+//                     password     : password,
+//                     status       : status
+//                   }; // end json_data
+
+//                  $.post(
+//                         "../ajax.php",
+//                         {
+//                           function_to_run: "registerStudent",
+//                           data: json_data,
+//                         },
+//                         function (response) {
+//                           var res = JSON.parse(response);
+                         
+//                          $("#process").hide(); 
+//                           if (res.data == "true") {
+  
+//                              $("#success").show();
+//                               setTimeout(function() {
+//                                     $("#success").hide('blind', {}, 300)
+//                                 }, 3000);
+//                                  window.location.href = "index.php";
+                           
+//                             } else if (res.data == "false") {
+                           
+//                               $("#fail").show();
+//                               setTimeout(function() {
+//                                     $("#fail").hide('blind', {}, 300)
+//                                 }, 3000);
+//                           }
+//                         }
+//                       );                      
+                    
+// }
+
 /*Admin END*/
 /* General Fucntions START*/
 function validatePassword(){

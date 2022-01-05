@@ -405,6 +405,18 @@ switch ($_POST['function_to_run']) {
 
             }
         break;
+         case 'scanAdminMail': 
+                        
+            $result = $admin->scanAdminMail();
+
+            if($result){
+                    echo  json_encode(array("data" => "true"));
+
+            }else{
+                  echo  json_encode(array("data" => "false"));
+
+            }
+        break;       
         case 'cancelSchedule':
 
              $result = $student->cancelSchedule();

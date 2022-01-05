@@ -85,6 +85,10 @@ if(!$_GET){
                     <center><p style="color: #ff0000; font-weight: bold; font-size: 12px;" id ="stimeenderror"> </p></center>
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label"></label>
+                    <textarea type="text" class="form-control" id="bookingReason" name="bookingReason" required="" placeholder="Concern" ></textarea>
+                  </div>
+                  <div class="input-group input-group-outline my-3">
+                    <label class="form-label"></label>
                     <textarea type="text" class="form-control" id="description" name="description" required="" placeholder="Details/Notes" readonly=""><?php echo $result['description'];?></textarea>
                   </div>
                   <div class="input-group input-group-outline my-3">
