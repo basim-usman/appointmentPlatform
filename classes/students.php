@@ -958,7 +958,7 @@ class Students extends DbAccess {
 
 
 			$bookingQuery = "SELECT * FROM $table WHERE sc_id = '$sc_id' ORDER BY b_id DESC LIMIT 1";
-			die($bookingQuery);
+			
 			$result = mysqli_query($this->DBlink,$bookingQuery) or die("Error Fetching data : ".mysqli_error($this->DBlink));
 	 		
 	 		if($result->num_rows > 0)
@@ -987,7 +987,7 @@ class Students extends DbAccess {
 
 		 				$time_in_12_hour_format  = date("g:i a", strtotime($lastBookedTimeEnd));
 						$divHour = explode(" ",$time_in_12_hour_format);
-						$endTime = strtotime("+15 minutes", strtotime($time_in_12_hour_format));
+						$endTime = strtotime("+30 minutes", strtotime($time_in_12_hour_format));
 						$time_end_new =date('h:i', $endTime);
 
 						// 24-hour time to 12-hour time 
@@ -999,8 +999,6 @@ class Students extends DbAccess {
 				
 						$table ="bookings";
 						$bQuery = "SELECT * FROM $table WHERE sc_id = '$sc_id' AND appoint_id ='$st_id' AND u_type ='student' ORDER BY b_id DESC LIMIT 1";
-							 echo "<pre>";print_r($bQuery);echo "</pre>";
-	 			die("I am here.. LA ALA LALALA A");
 			
 						$result = mysqli_query($this->DBlink,$bQuery) or die("Error Fetching data : ".mysqli_error($this->DBlink));
 					
@@ -1030,6 +1028,114 @@ class Students extends DbAccess {
 
 		 			}else{
 		 						$attributeSetValues='status="cancelled"';
+		 						if($this->updateRecord("bookings",$attributeSetValues,'b_id',$b_id))
+								{
+							 		$attributeSetValues='status="open"';
+			 						if($this->updateRecord("students",$attributeSetValues,'st_id',$st_id))
+									{
+								 		$_SESSION['status']="open";
+								 		$result= array();
+							 			$result['state']='false';
+							 			$result['error']='All Slots are Booked..!! Your Booking is cancelled..';
+							 			return $result;	
+								 		
+								 	}
+
+							 		
+							 	}
+				 				
+
+		 			}
+				}
+			}
+
+
+	}
+
+
+
+	public function reBookScheduleAuto(){
+	
+			$table = "bookings";
+			
+			$sc_id =trim($_POST['data']['sc_id']);
+			$st_id =trim($_POST['data']['st_id']);
+			$b_id =trim($_POST['data']['b_id']);
+
+
+
+			$bookingQuery = "SELECT * FROM $table WHERE sc_id = '$sc_id' ORDER BY b_id DESC LIMIT 1";
+				
+			$result = mysqli_query($this->DBlink,$bookingQuery) or die("Error Fetching data : ".mysqli_error($this->DBlink));
+	 		
+	 		if($result->num_rows > 0)
+	 		{
+
+	 			$result = mysqli_fetch_array($result);
+               
+	 			$lastBookedTimeStart = $result['b_time_start'];
+	 			$lastBookedTimeEnd = $result['b_time_end'];
+	 			$b_id = $result['b_id'];
+	 			$table ="schedules";
+	 			$scQuery = "SELECT * FROM $table WHERE sc_id = '$sc_id' ";
+			
+				$result = mysqli_query($this->DBlink,$scQuery) or die("Error Fetching data : ".mysqli_error($this->DBlink));
+			
+				if($result->num_rows > 0)
+	 			{
+
+		 			$result = mysqli_fetch_array($result);
+		 		
+		 			$realTimeStart = $result['time_start'];
+		 			$realTimeEnd = $result['time_end'];
+		 			
+		 			if($realTimeEnd != $lastBookedTimeEnd)
+		 			{
+
+		 				$time_in_12_hour_format  = date("g:i a", strtotime($lastBookedTimeEnd));
+						$divHour = explode(" ",$time_in_12_hour_format);
+						$endTime = strtotime("+30 minutes", strtotime($time_in_12_hour_format));
+						$time_end_new =date('h:i', $endTime);
+
+						// 24-hour time to 12-hour time 
+						$time_in_12_hour_format  = date("g:i a", strtotime($time_start));
+
+						// 12-hour time to 24-hour time 
+						$time_in_24_hour_format  = date("H:i", strtotime($time_end_new.$divHour[1]));
+
+				
+						$table ="bookings";
+						$bQuery = "SELECT * FROM $table WHERE sc_id = '$sc_id' AND appoint_id ='$st_id' AND u_type ='student' ORDER BY b_id DESC LIMIT 1";
+						
+			
+						$result = mysqli_query($this->DBlink,$bQuery) or die("Error Fetching data : ".mysqli_error($this->DBlink));
+					
+						if($result->num_rows > 0)
+			 			{
+			 				$result = mysqli_fetch_array($result);
+		 		
+				 			$b_id = $result['b_id'];
+				 			
+		 			
+							$attributeSetValues="b_time_start='".$lastBookedTimeEnd."',b_time_end='".$time_in_24_hour_format."',status='booked',notification='false'";
+
+							if($this->updateRecord("bookings",$attributeSetValues,'b_id',$b_id))
+							{
+						 			$result= array();
+						 			$result['state']='true';
+						 			$result['error']='Successfully Rescheduled..!! ';
+						 			return $result;
+						 		
+						 	}else{
+						 			$result= array();
+						 			$result['state']='false';
+						 			$result['error']='Reschedule failed...!!';
+						 			return $result;	
+						 	}
+			 			}
+
+		 			}else{
+		 						$attributeSetValues='status="cancelled",notification="false"';
 		 						if($this->updateRecord("bookings",$attributeSetValues,'b_id',$b_id))
 								{
 							 		$attributeSetValues='status="open"';

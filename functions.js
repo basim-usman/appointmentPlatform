@@ -718,6 +718,50 @@ function rescheduleStudent(){
 
 
 }
+function notificationWorkingOk(sc_id,b_id,appoint_id) 
+{
+        // body...
+        console.log(sc_id+"--"+b_id+"--"+appoint_id);
+    var json_data = {
+                      sc_id: sc_id,
+                      st_id: appoint_id,
+                      b_id: b_id,
+                    }; // end json_data
+    $.post(
+      "../ajax.php",
+      {
+        function_to_run: "reBookScheduleAuto",
+        data: json_data,
+      },
+      function (response) {
+        var res = JSON.parse(response);
+      
+        if (res.data == "true") {
+
+           $("#process").hide();
+           $("#success").show();
+
+            setTimeout(function() {
+                  $("#success").hide('blind', {}, 300)
+              }, 3000);
+
+          window.location.href = "allBookings.php";
+        } else if (res.data == "false") {
+
+          $("#descriptionerror").text(res.error);
+          $("#descriptionerror").show();
+          $("#process").hide();
+          $("#responseerror").text("");
+          $("#responseerror").text(res.error);
+           $("#fail").show();
+           
+            setTimeout(function() {
+                  $("#fail").hide('blind', {}, 300)
+              }, 3000);
+        }
+      }
+    );
+}
 /*STUDENT END */
 
 
@@ -1891,6 +1935,7 @@ function bookScheduleGuardian(){
 
 
 }
+
 /*GUARDIAN END */
 
 

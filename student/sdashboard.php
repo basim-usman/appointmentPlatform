@@ -23,6 +23,7 @@
   include ('../classes/teachers.php');
   $teacher = new Teachers();
   $result = $teacher->teacherNotification();
+  $result1 = $teacher->reScheduleNotification(); 
   if($result)
   { 
     foreach ($result as $row ) { ?>
@@ -37,13 +38,55 @@
             From: <?php echo $row['time_start']; ?> - To: <?php echo $row['time_end']; ?>
           </div>
           <div class="col-2" style="text-align: right;">
-            <a href="notification_delete.php?id=<?php echo $row['sc_id']; ?>" class="font-weight-bold" style="color: #006e04;">X</a>
+            <a href="notification_delete.php?id=<?php echo $row['sc_id']; ?>&state=0" class="font-weight-bold" style="color: #006e04;">X</a>
+          </div>
+        </div>
+      </div>
+<?php } } ?>
+<?php if($result1)
+  { 
+    foreach ($result1 as $row ) { ?>
+      <div class="col-7 mt-3">
+        <div class="row p-2 rounded" style="background-color: #4caf5080;color: #006e04;">
+          <div class="col-10">
+            Ma'am/Sir: <?php echo $row['fullname']; ?> Your schedule [ <?php echo $row['b_date']; ?> From: <?php echo $row['b_time_start']; ?> - To: <?php echo $row['b_time_end']; ?>] is taken by guardian, would you like to auto book  an appointment?
+
+            <br>
+           
+            <br>
+           
+            <button type="button" id="resc_btn" class="btn bg-gradient-success" onclick="notificationWorkingOk(<?php echo $row['sc_id']; ?>,<?php echo $row['b_id']; ?>,<?php echo $row['appoint_id']; ?>);">Yes</button>
+            <button type="button" id="resc_btn" class="btn bg-gradient-primary" onclick="notificationWorking(<?php echo $row['b_id']; ?>,1);" >No</button>
+          </div>
+          <div class="col-2" style="text-align: right;">
+            <a href="notification_delete.php?id=<?php echo $row['b_id']; ?>&state=1" class="font-weight-bold" style="color: #006e04;">X</a>
           </div>
         </div>
       </div>
 <?php } } ?>
     </div>
-    
+    <script type="text/javascript">
+      function notificationWorking(id,state) {
+        // body...
+        window.location.href = "notification_delete.php?id="+id+"&state="+state;
+      }
+
+    </script>
+          <div style="margin-top: 80px;">
+          <div class="alert alert-dark alert-dismissible text-white" role="alert" id="process" style="display:none;">
+                <span class="text-sm">Processing Your Request</span>
+          </div>
+          <div class="alert alert-success alert-dismissible text-white" role="alert" id="success" style="display:none;">
+                <span class="text-sm">Added Successfully </span>
+               
+          </div>
+          <div class="alert alert-danger alert-dismissible text-white" role="alert" id="fail" style="display:none;">
+                <span class="text-sm" id="responseerror">Sorry Technical Problem..Try again later.!! </span>
+                <span class="text-sm" id="responseerror1"></span>
+               
+          </div>
+        </div>
+
     <!-- End Navbar -->
     <!-- <div class="container-fluid py-4">
       <div class="row">

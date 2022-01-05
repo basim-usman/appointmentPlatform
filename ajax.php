@@ -101,6 +101,17 @@ switch ($_POST['function_to_run']) {
                 echo  json_encode(array("data" => "false","error" => $result['error']));
             }     
         break;
+        case 'reBookScheduleAuto': 
+            $result = $student->reBookScheduleAuto();
+            
+            if($result['state'] == 'true')
+            { 
+                echo  json_encode(array("data" => "true","error" => $result['error']));
+            }else{
+
+                echo  json_encode(array("data" => "false","error" => $result['error']));
+            }     
+        break;
         /* TEACHERS FUNCTIONS*/
         case 'scanUsernameTeacher': 
                         

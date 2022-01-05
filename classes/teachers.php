@@ -699,7 +699,28 @@ class Teachers extends DbAccess {
 				}
 			}
 	}
-
+	public function reScheduleNotification()
+	{
+			
+		
+			$query = "SELECT * FROM `bookings`	WHERE notification = 'true' AND u_type = 'student' AND appoint_id= '".$_SESSION['st_id']."'";
+			
+			$result = mysqli_query($this->DBlink,$query);
+		  
+			if($result)
+			{
+				if(mysqli_num_rows($result) > 0)
+				{
+					while($row = mysqli_fetch_assoc($result))
+					{
+						$array[] = 	 $row;
+	 				}
+					return $array;	
+				}else{
+					return false;
+				}
+			}
+	}
 	public function StudentNotification()
 	{
 			
