@@ -381,6 +381,7 @@ class Teachers extends DbAccess {
 	 			$result = mysqli_fetch_array($result);
 
 	 			$_SESSION['username'] = $result['username'];
+	 		    $_SESSION['fullname'] = $result['first_name']." ".$result['last_name'];
 	 			$_SESSION['t_id']    = $result['t_id'];
 	 			$_SESSION['status']	  =$result['status'];
 	 			$_SESSION['type']     = "teacher";
@@ -422,6 +423,7 @@ class Teachers extends DbAccess {
 
 	 		$table  		 = "schedules";
 	 		$date  = trim($_POST['data']['date']);
+	 		$fullname  = $_SESSION['fullname'];
 	 		$time_start  = trim($_POST['data']['time_start']);
 	 		$time_end  = trim($_POST['data']['time_end']);
 	 		$t_id= trim($_POST['data']['t_id']);
@@ -444,9 +446,10 @@ class Teachers extends DbAccess {
 
 	 		}else {
 	 				
-				$attribute ="t_id,description,date,time_start,time_end,status,total,added_date,updated_date";
+				$attribute ="t_id,fullname,description,date,time_start,time_end,status,total,added_date,updated_date";
 							
 					$values    = "'".$t_id."',
+								'".$fullname."',
 								'".trim($_POST['data']['description'])."',
 								'".$date."',
 								'".$time_start."',
@@ -673,6 +676,53 @@ class Teachers extends DbAccess {
 				}
 			}
 	}
+
+	public function teacherNotification()
+	{
+			
+		
+			$query = "SELECT * FROM `schedules`	WHERE status_notification = 0 ";
+			
+			$result = mysqli_query($this->DBlink,$query);
+		  
+			if($result)
+			{
+				if(mysqli_num_rows($result) > 0)
+				{
+					while($row = mysqli_fetch_assoc($result))
+					{
+						$array[] = 	 $row;
+	 				}
+					return $array;	
+				}else{
+					return false;
+				}
+			}
+	}
+
+	public function StudentNotification()
+	{
+			
+		
+			$query = "SELECT * FROM `bookings` WHERE t_id = '".$_SESSION['t_id']."'";
+			
+			$result = mysqli_query($this->DBlink,$query);
+		  
+			if($result)
+			{
+				if(mysqli_num_rows($result) > 0)
+				{
+					while($row = mysqli_fetch_assoc($result))
+					{
+						$array[] = 	 $row;
+	 				}
+					return $array;	
+				}else{
+					return false;
+				}
+			}
+	}
+
 
 	public function getTeacherBookings(){
 		$t_id = $_SESSION['t_id'];

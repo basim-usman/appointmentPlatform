@@ -74,7 +74,7 @@ $count = count($result);
                                    <input type="hidden" name="sc_id" id="sc_id-<?php echo $hit;?>" value="<?php echo $row['sc_id']; ?>">
                                    <input type="hidden" name="st_id" id="st_id-<?php echo $hit;?>" value="<?php echo $row['appoint_id']; ?>">
                                   <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm"><?php echo $row['tfirst']." ".$row['tlast']; ?></h6>
+                                    <h6 class="mb-0 text-xs"><?php echo $row['tfirst']." ".$row['tlast']; ?></h6>
                                     <p class="text-xs text-secondary mb-0"><?php echo $row['temail']; ?></p>
                                   </div>
                                 </div>
@@ -83,7 +83,7 @@ $count = count($result);
                                 <div class="d-flex px-2 py-1">
                                  
                                   <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm"><?php echo $row['sfirst']." ".$row['slast']; ?></h6>
+                                    <h6 class="mb-0 text-xs"><?php echo $row['sfirst']." ".$row['slast']; ?></h6>
                                     <p class="text-xs text-secondary mb-0"><?php echo $row['semail']; ?></p>
                                   </div>
                                 </div>

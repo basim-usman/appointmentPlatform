@@ -13,7 +13,7 @@ $result = $admin->getAdminchedules();
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Teacher</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Dashboard</a></li>
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Schedules</li>
           </ol>
           <h6 class="font-weight-bolder mb-0">Schedules</h6>
@@ -43,7 +43,7 @@ $result = $admin->getAdminchedules();
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">End Time</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status </th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Bookings </th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Actions </th>
+                      <!--<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Actions </th>-->
                     </tr>
                   </thead>
                   <tbody id="tableBody">
@@ -91,11 +91,11 @@ $result = $admin->getAdminchedules();
                               <td >
                                 <span class="text-secondary text-xs font-weight-bold"><?php echo $row['total']; ?></span>
                               </td>
-                              <td >
-                                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                  Edit
-                                </a>
-                              </td>
+                              <!--<td >-->
+                              <!--  <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">-->
+                              <!--    Edit-->
+                              <!--  </a>-->
+                              <!--</td>-->
                             </tr>
                    <?php  } ?>         
                   <?php }else{ ?>

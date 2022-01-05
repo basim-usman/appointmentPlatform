@@ -15,6 +15,35 @@
         
       </div>
     </nav>
+
+      <div class="container-fluid">
+
+
+ <?php 
+  include ('../classes/teachers.php');
+  $teacher = new Teachers();
+  $result = $teacher->teacherNotification();
+  if($result)
+  { 
+    foreach ($result as $row ) { ?>
+      <div class="col-7 mt-3">
+        <div class="row p-2 rounded" style="background-color: #4caf5080;color: #006e04;">
+          <div class="col-10">
+            Ma'am/Sir: <?php echo $row['fullname']; ?> has set a schedule, would you like to book an appointment?
+
+            <br>
+            <?php echo $row['date']; ?>
+            <br>
+            From: <?php echo $row['time_start']; ?> - To: <?php echo $row['time_end']; ?>
+          </div>
+          <div class="col-2" style="text-align: right;">
+            <a href="notification_delete.php?id=<?php echo $row['sc_id']; ?>" class="font-weight-bold" style="color: #006e04;">X</a>
+          </div>
+        </div>
+      </div>
+<?php } } ?>
+    </div>
+
     <!-- End Navbar -->
     <!-- <div class="container-fluid py-4">
       <div class="row">

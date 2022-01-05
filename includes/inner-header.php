@@ -1,6 +1,7 @@
 <?php 
  error_reporting(E_ALL); 
  session_start();
+ 
 
  if( ((($_SESSION['islogin'])) AND ($_SESSION['islogin'] == false) ) OR ($_SESSION['islogin'] == NULL) ){
     
@@ -39,3 +40,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
 
 </head>
+<style type="text/css">
+  .text-sm{
+    font-size: 1em !important;
+    color :#0000cd !important;
+  }
+  .text-dark{
+        color :#0000cd !important;
+      
+  }
+
+</style>

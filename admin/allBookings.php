@@ -17,7 +17,7 @@ $result = $admin->getAdminBookings();
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Teacher</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Dashboard</a></li>
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Bookings</li>
           </ol>
           <h6 class="font-weight-bolder mb-0">Bookings</h6>
@@ -46,14 +46,19 @@ $result = $admin->getAdminBookings();
 
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Teacher</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Student/Guardian</th>
+                        <?php if($_SESSION['a_id'] != 1){ ?>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Concern</th>
+                        <?php } ?>  
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Start Time</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">End Time</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mode</th>
+                      <?php if($_SESSION['a_id'] != 1){ ?>
                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Reason</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Solution</th>
+                      <?php } ?>  
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status </th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Actions </th>
+                      <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Actions </th> -->
                     </tr>
                   </thead>
                   <tbody id="tableBody">
@@ -92,7 +97,11 @@ $result = $admin->getAdminBookings();
                                     <?php } ?>
                                 </div>
                               </td>
-                     
+                                <?php if($_SESSION['a_id'] != 1){ ?>
+                              <td>
+                                <span class="text-secondary text-xs font-weight-bold"><?php echo $row['booking_reason']; ?></span>
+                              </td>
+                                <?php } ?>
                               <td>
                                 <span class="text-secondary text-xs font-weight-bold"><?php echo $row['b_date']; ?></span>
                               </td>
@@ -107,14 +116,15 @@ $result = $admin->getAdminBookings();
                               <td>
                                  <span class="text-secondary text-xs font-weight-bold"><?php if($row['mode'] == 'ftf'){echo 'Face-Face';}else{ echo $row['mode']." | Link : [".$row['chat_link']." ]";} ?></span>
                               </td>
-                              <td>
-                                  <textarea type="text" class="form-control" id="reason" name="reason" row="5" required="" placeholder="Not available" readonly=""><?php  echo $row['reason']; ?></textarea>
-                               
-                              </td>
-                              <td>
-                                  <textarea type="text" class="form-control" id="solution" name="solution" row="5" required="" placeholder="Not available" readonly=""><?php  echo $row['solution']; ?></textarea>
-                               
-                              </td>
+                               <?php if($_SESSION['a_id'] != 1){ ?>
+                                <td>
+                                  <textarea type="text" class="form-control" id="reason" name="reason" row="5" required="" placeholder="Not available" readonly=""><?php  echo $row['reason']; ?></textarea>         
+                                </td>
+                                <td>
+                                  <textarea type="text" class="form-control" id="solution" name="solution" row="5" required="" placeholder="Not available" readonly=""><?php  echo $row['solution']; ?></textarea>  
+                                </td>
+                              <?php } ?>  
+                             
                               
                               <td>
                                 
@@ -133,7 +143,7 @@ $result = $admin->getAdminBookings();
                                 <?php } ?> 
                               </td>
                              
-                              <td >
+                             <!--  <td >
                                 <?php if($row['status'] != 'inprocess' && $row['status'] != 'reschedule' && $row['status'] != 'done'  && $row['status'] != 'cancelled' ){ ?> 
                                 <a href="#" onclick="#" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                                   Start |
@@ -156,7 +166,7 @@ $result = $admin->getAdminBookings();
 
 
                  
-                              </td>
+                              </td> -->
                             </tr>
                    <?php  } ?>         
                   <?php }else{ ?>

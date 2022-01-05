@@ -354,6 +354,7 @@ class Guardians extends DbAccess {
 	 			$_SESSION['username'] = $result['username'];
 	 			$_SESSION['g_id']    = $result['g_id'];
 	 			$_SESSION['status']	  =$result['status'];
+	 			$_SESSION['fullname'] = $result['first_name']." ".$result['last_name'];
 	 			$_SESSION['type']     = "guardian";
 	           	$_SESSION['islogin']  = true;
 	           		
@@ -534,6 +535,7 @@ class Guardians extends DbAccess {
 			$total =strval($_POST['data']['total']);
 			$t_id =trim($_POST['data']['t_id']);
 			$bookingReason =trim($_POST['data']['bookingReason']);
+			$fullname = $_SESSION['fullname'];
 			
 			$time_in_12_hour_format  = date("g:i a", strtotime($time_start));
 			$divHour = explode(" ",$time_in_12_hour_format);
@@ -585,10 +587,11 @@ class Guardians extends DbAccess {
 			   			 }
 						
 	 				}
-	 				$attribute ="sc_id,t_id,appoint_id,u_type,b_time_start,b_time_end,b_date,mode,status,booking_reason,added_date,updated_date";	
+	 				$attribute ="sc_id,t_id,fullname,appoint_id,u_type,b_time_start,b_time_end,b_date,mode,status,booking_reason,added_date,updated_date,status_notification";	
 					$u_type       = "guardian";
 					$values    = "'".$sc_id."',
 								'".$t_id."',
+								'".$_SESSION['fullname']."',
 								'".$g_id."',
 								'".$u_type."',
 								'".trim($time_start)."',
@@ -598,7 +601,8 @@ class Guardians extends DbAccess {
 								'".trim($status)."',
 								'".trim($bookingReason)."',
 								'".date("Y-m-d")."',
-								 NULL";
+								 NULL,
+								 2";
 
 					if($this->insertRecord($table,$attribute,$values))
 					{
@@ -630,10 +634,11 @@ class Guardians extends DbAccess {
 					
 				}else{
 					
-					$attribute ="sc_id,t_id,appoint_id,u_type,b_time_start,b_time_end,b_date,mode,status,booking_reason,added_date,updated_date";	
+					$attribute ="sc_id,t_id,fullname,appoint_id,u_type,b_time_start,b_time_end,b_date,mode,status,booking_reason,added_date,updated_date,status_notification";
 					$u_type       = "guardian";
 					$values    = "'".$sc_id."',
 								'".$t_id."',
+								'".$_SESSION['fullname']."',
 								'".$g_id."',
 								'".$u_type."',
 								'".trim($time_start)."',
@@ -765,7 +770,31 @@ class Guardians extends DbAccess {
 		}
 	}
 
+	public function getScheduleForGuardian()
+	{
+		$sc_id =trim($_GET['sc_id']);	
+		$query = "SELECT sc.*,t.t_id,t.username,t.email,t.first_name,t.last_name 
+						   FROM `schedules` AS sc 
+						   LEFT JOIN teachers AS t 
+						   	ON t.t_id = sc.t_id
+						   	WHERE sc.sc_id = '$sc_id' AND sc.status='open'   ORDER BY sc.added_date DESC ";
 
+			$result = mysqli_query($this->DBlink,$query);
+		  
+			if($result)
+			{
+				if(mysqli_num_rows($result) > 0)
+				{
+					while($row = mysqli_fetch_assoc($result))
+					{
+						$array[] = 	 $row;
+	 				}
+					return $array;	
+				}else{
+					return false;
+				}
+			}
+	} 
 	private function userUpdateFeed(){
 
 		$state = true;

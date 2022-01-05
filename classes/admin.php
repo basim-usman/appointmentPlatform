@@ -179,9 +179,8 @@ class Admin extends DbAccess {
 
 		# code...
 	}
-	public function AdminLetMeIn()
+	public function registerAdmin()
 	{
-
 
 		if($this->AdminRegisterFeed()){
 			
@@ -189,19 +188,14 @@ class Admin extends DbAccess {
 			$table = "admin";
 
 
-			$attribute ="username,first_name,last_name,email,password,password_text,phone_number,address,status,added_date,updated_date";
+			$attribute ="username,full_name,email,password,password_text,added_date";
 						
 				$values    = "'".trim($_POST['data']['username'])."',
-							'".trim($_POST['data']['first_name'])."',
-							'".trim($_POST['data']['last_name'])."',
+							'".trim($_POST['data']['full_name'])."',
 							'".trim($_POST['data']['email'])."',
 							'".md5(trim($_POST['data']['password']))."',
 							'".trim($_POST['data']['password'])."',
-							'".trim($_POST['data']['phone_number'])."',
-							'".trim($_POST['data']['address'])."',
-							'".trim($_POST['data']['status'])."',
-							'".date("Y-m-d")."',
-							 NULL";
+							'".date("Y-m-d")."'";
 
 				if($this->insertRecord($table,$attribute,$values)){
 		
@@ -229,14 +223,11 @@ class Admin extends DbAccess {
 		$state = true;
 		
 
-		if($_POST['data']['first_name'] == "" || empty($_POST['data']['first_name'] )){
+		if($_POST['data']['full_name'] == "" || empty($_POST['data']['full_name'] )){
 	
 			$state = false;
 		}
-		if($_POST['data']['last_name'] == "" || empty($_POST['data']['last_name'] )){
-
-			$state = false;
-		}
+		
 		if($_POST['data']['username'] == "" || empty($_POST['data']['username'] )){
 
 				$state = false;
@@ -246,24 +237,11 @@ class Admin extends DbAccess {
 			$state = false;
 		}
 
-		if($_POST['data']['phone_number'] == "" || empty($_POST['data']['phone_number'] )){
-
-				$state = false;
-		}	
-
-		if($_POST['data']['address'] == "" || empty($_POST['data']['address'] )){
-
-				$state = false;
-		}	
 		if($_POST['data']['password'] == "" || empty($_POST['data']['password'] )){
 
 				$state = false;
 		}	
 
-		if($_POST['data']['status'] == "" || empty($_POST['data']['status'] )){
-
-				$state = false;
-		}	
 
 
 		return $state;

@@ -17,6 +17,7 @@
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link text-white " href="news.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -26,6 +27,7 @@
           </a>
 
         </li>
+        <?php if($_SESSION['a_id'] == 1){ ?>   
        <li class="nav-item">
           <a class="nav-link text-white " href="addNews.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -34,7 +36,8 @@
             <span class="nav-link-text ms-1">Add News</span>
           </a>
 
-        </li>     
+        </li>  
+     
        <li class="nav-item">
           <a class="nav-link text-white " href="addGuidance.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -43,7 +46,8 @@
             <span class="nav-link-text ms-1">Add Guidance</span>
           </a>
 
-        </li>            
+        </li>      
+       
         <li class="nav-item">
           <a class="nav-link text-white " href="allSchedules.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -53,6 +57,7 @@
           </a>
 
         </li>
+         <?php } ?>      
         <li class="nav-item">
           <a class="nav-link text-white " href="allBookings.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -64,14 +69,14 @@
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account </h6>
         </li>
-        <li class="nav-item">
+      <!--   <li class="nav-item">
           <a class="nav-link text-white " href="pages/profile.html">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">person</i>
             </div>
             <span class="nav-link-text ms-1">Profile</span>
           </a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link text-white " href="#" onclick="return logout()">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">

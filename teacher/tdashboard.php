@@ -15,6 +15,41 @@
         
       </div>
     </nav>
+
+
+        <div class="container-fluid">
+
+
+ <?php 
+  include ('../classes/teachers.php');
+  $teacher = new Teachers();
+  $result = $teacher->StudentNotification();
+  if($result)
+  { 
+    foreach ($result as $row ) {
+    if ($row['status_notification'] == 0 OR $row['status_notification'] == 2) { ?>
+      <div class="col-7 mt-3">
+        <div class="row p-2 rounded" style="background-color: #4caf5080;color: #006e04;">
+          <div class="col-10">
+            <?php if ($row['status_notification'] == 0) { ?>
+            Student: <?php echo $row['fullname']; ?> Has booked an appointment 
+          <?php }elseif ($row['status_notification'] == 2){?>
+            Guardian: <?php echo $row['fullname']; ?> Has booked an appointment 
+          <?php } ?>
+            <br>
+            <?php echo $row['b_date']; ?>
+            <br>
+            From: <?php echo $row['b_time_start']; ?> - To: <?php echo $row['b_time_end']; ?>
+          </div>
+          <div class="col-2" style="text-align: right;">
+            <a href="notification_delete.php?id=<?php echo $row['b_id']; ?>" class="font-weight-bold" style="color: #006e04;">X</a>
+          </div>
+        </div>
+      </div>
+<?php } } } ?>
+    </div>
+
+
     <!-- End Navbar -->
     <!-- <div class="container-fluid py-4">
       <div class="row">

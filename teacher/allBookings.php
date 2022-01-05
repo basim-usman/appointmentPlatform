@@ -71,7 +71,7 @@ $result = $teacher->getTeacherBookings();
                                 <div class="d-flex px-2 py-1">
                                  
                                   <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm"><?php echo $row['tfirst']." ".$row['tlast']; ?></h6>
+                                    <h6 class="mb-0 text-xs"><?php echo $row['tfirst']." ".$row['tlast']; ?></h6>
                                     <p class="text-xs text-secondary mb-0"><?php echo $row['temail']; ?></p>
                                   </div>
                                 </div>
@@ -80,12 +80,12 @@ $result = $teacher->getTeacherBookings();
                                 <div class="d-flex px-2 py-1">
                                  <?php if($row['u_type'] == 'student'){ ?>
                                   <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm"><?php echo $row['sfirst']." ".$row['slast']; ?></h6>
+                                    <h6 class="mb-0 text-xs"><?php echo $row['sfirst']." ".$row['slast']; ?></h6>
                                     <p class="text-xs text-secondary mb-0"><?php echo $row['semail']; ?></p>
                                   </div>
                                 <?php }if($row['u_type'] == 'guardian'){?>
                                   <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm"><?php echo $row['gfirst']." ".$row['glast']; ?></h6>
+                                    <h6 class="mb-0 text-xs"><?php echo $row['gfirst']." ".$row['glast']; ?></h6>
                                     <p class="text-xs text-secondary mb-0"><?php echo $row['gemail']; ?></p>
                                   </div>
                                     <?php } ?>

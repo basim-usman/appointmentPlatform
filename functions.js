@@ -316,24 +316,16 @@ function validateAppointmentTime()
     var hourArray1 = [];
     var differLoop = loopEnd-loopStart;
     
-     for(var i = 0; i<=differLoop;i++ ){
+    for(var i = 0; i<=differLoop;i++ ){
         if(loopStart<10){
           hourArray1[i]= "0"+loopStart;
         }else{
-           hourArray1[i]= loopStart;
+           hourArray1[i]= loopStart.toString();
         }
         
         loopStart++;
 
      }
-    //
-  
-   
-  
-   
-   
-   
-  
     //
     if(hourArray1.indexOf(sHr) !== -1){
    
@@ -359,12 +351,14 @@ function validateAppointmentTime()
           $("#failedNotificationTime").show();
       }
 
-     setTimeout(function(){ validateAppointmentTime(); }, 3000);
+      setTimeout(function(){ validateAppointmentTime(); }, 3000);
    
 }
 function validateAppointmentTimeGuardian()
 {
     //  7am  - 8pm
+
+         
     var hourArray = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20"];
     var realStart = $("#timestart").val();
    
@@ -396,19 +390,19 @@ function validateAppointmentTimeGuardian()
         if(loopStart<10){
           hourArray1[i]= "0"+loopStart;
         }else{
-           hourArray1[i]= loopStart;
+           hourArray1[i]= loopStart.toString();
         }
         
         loopStart++;
 
      }
-  
+ 
     if(hourArray1.indexOf(sHr) !== -1){
-   
+      
           $("#failedNotificationTime").hide();
           $("#failedNotificationTime").css('display','none');
           $("#reg_btn").attr('disabled',false);
-           SumHours(start,end);
+            SumHours(start,end);
            
       }else{
        $("#failedTextTime").text("Appointment Availiabilty : "+realStart+" - "+realEnd);
@@ -417,12 +411,14 @@ function validateAppointmentTimeGuardian()
       }
 
      if(hourArray1.indexOf(eHr) !== -1){
+     
           $("#failedNotificationTime").hide();
           $("#failedNotificationTime").css('display','none');
           $("#reg_btn").attr('disabled',false);
-           SumHours(start,end);
+            SumHours(start,end);
       } else{
-        $("#failedTextTime").text("Appointment Availiabilty : "+realStart+" - "+realEnd);
+        
+          $("#failedTextTime").text("Appointment Availiabilty : "+realStart+" - "+realEnd);
           $("#reg_btn").attr('disabled',true);
           $("#failedNotificationTime").show();
       }
@@ -490,7 +486,7 @@ function SumHours(smon,fmon) {
     return hours + "hours : " + minutes + "minutes ";
   }
 
-    setTimeout(function(){ validateAppointmentTime("start"); }, 3000);
+    // setTimeout(function(){ validateAppointmentTime("start"); }, 3000);
 
 function convertTo24Hour(time) {
     var hours = parseInt(time.substr(0, 2));
@@ -2004,7 +2000,7 @@ function adminValidate(){
     $("#passworderror").hide();
     $("#confirmpassworderror").hide();
   
-  if (fname != "" && username != ""  && email!= ""   && password != "" && cpassword != ""  ) 
+  if (fname != "" && username != ""  && email!= ""  && password != "" && cpassword != ""  ) 
   {
     $("#fullnameerror").hide(); 
     $("#adminusernameerror").hide();
@@ -2014,7 +2010,7 @@ function adminValidate(){
     // $("#loginerror").hide();
        $("#process").show();
 
-     // studentRegister(fname,lname,username,email,phone_number,address,password,status);
+      addGuidance(fname,username,email,password);
 
   } else if(fname == ""){
     $("#fullnameerror").text("Provide Valid Full Name");
@@ -2025,13 +2021,9 @@ function adminValidate(){
   }else if(email == ""){
     $("#adminemailerror").text("Provide Valid Email");
     $("#adminemailerror").show(); 
-  }else if(address == ""){
-    $("#addresserror").text("Provide Valid Address");
-    $("#addresserror").show(); 
   }else if(password =="") {
     $("#passworderror").text("Provide Valid Password");
     $("#passworderror").show();
-
   }else if(cpassword == ""){
     $("#confirmpassworderror").text("Provide Valid Confirm Password");
     $("#confirmpassworderror").show();
@@ -2039,47 +2031,43 @@ function adminValidate(){
   }
 }
 
-// function studentRegister(fname,lname,username,email,phone_number,address,password,status) {
-//   // body...
-//   var json_data = { first_name   : fname,
-//                     last_name    : lname,
-//                     username     : username,
-//                     email        : email,
-//                     phone_number : phone_number,
-//                     address      : address,
-//                     password     : password,
-//                     status       : status
-//                   }; // end json_data
+function addGuidance(fname,username,email,password) {
+  // body...
+  var json_data = { full_name   : fname,
+                    username     : username,
+                    email        : email,
+                    password     : password,
+                  }; // end json_data
 
-//                  $.post(
-//                         "../ajax.php",
-//                         {
-//                           function_to_run: "registerStudent",
-//                           data: json_data,
-//                         },
-//                         function (response) {
-//                           var res = JSON.parse(response);
+                 $.post(
+                        "../ajax.php",
+                        {
+                          function_to_run: "registerAdmin",
+                          data: json_data,
+                        },
+                        function (response) {
+                          var res = JSON.parse(response);
                          
-//                          $("#process").hide(); 
-//                           if (res.data == "true") {
+                         $("#process").hide(); 
+                          if (res.data == "true") {
   
-//                              $("#success").show();
-//                               setTimeout(function() {
-//                                     $("#success").hide('blind', {}, 300)
-//                                 }, 3000);
-//                                  window.location.href = "index.php";
+                             $("#success").show();
+                              setTimeout(function() {
+                                    $("#success").hide('blind', {}, 300)
+                                }, 3000);
+                                 window.location.href = "../admin/adashboard.php";
                            
-//                             } else if (res.data == "false") {
+                            } else if (res.data == "false") {
                            
-//                               $("#fail").show();
-//                               setTimeout(function() {
-//                                     $("#fail").hide('blind', {}, 300)
-//                                 }, 3000);
-//                           }
-//                         }
-//                       );                      
+                              $("#fail").show();
+                              setTimeout(function() {
+                                    $("#fail").hide('blind', {}, 300)
+                                }, 3000);
+                          }
+                        }
+                      );                      
                     
-// }
+}
 
 /*Admin END*/
 /* General Fucntions START*/

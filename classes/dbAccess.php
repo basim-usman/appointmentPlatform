@@ -9,14 +9,14 @@ class DbAccess  {
 		var $result; // variable $result use perform all results 
 
 	
+// 		var $servername = "localhost";
+// 		var	$username   = "apkuser";
+// 		var	$password   = "apk123";
+// 		var	$database   = "schooldb";
 		var $servername = "localhost";
-		var	$username   = "apkuser";
-		var	$password   = "apk123";
-		var	$database   = "schooldb";
-		// var $servername = "localhost";
-		// var	$username   = "mediapoi_apkuser";
-		// var	$password   = "h&A,+%r}QR5I";
-		// var	$database   = "mediapoi_schooldb";
+		var	$username   = "mediapoi_apkuser";
+		var	$password   = "h&A,+%r}QR5I";
+		var	$database   = "mediapoi_schooldb";
 
 				
 

@@ -382,6 +382,7 @@ class Students extends DbAccess {
 	 			$_SESSION['username'] = $result['username'];
 	 			$_SESSION['st_id']    = $result['st_id'];
 	 			$_SESSION['status']	  =$result['status'];
+	 			$_SESSION['fullname'] = $result['first_name']." ".$result['last_name'];
 	 			$_SESSION['type']     = "student";
 	           	$_SESSION['islogin']  = true;
 	           		
@@ -546,6 +547,7 @@ class Students extends DbAccess {
 		// code...
 		if($this->bookScheduleFeed())
 		{
+		    
 			
 			$table = "bookings";
 			$time_start =trim($_POST['data']['time_start']);
@@ -557,14 +559,16 @@ class Students extends DbAccess {
 			$status =strval($_POST['data']['status']);
 			$total =strval($_POST['data']['total']);
 			$t_id =trim($_POST['data']['t_id']);
+			$fullname = $_SESSION['fullname'];
 			$bookingReason =trim($_POST['data']['bookingReason']);
 			
 			
 			if(!isset($_POST['data']['stat'])){
-					$attribute ="sc_id,t_id,appoint_id,u_type,b_time_start,b_time_end,b_date,mode,status,booking_reason,added_date,updated_date";
+				$attribute ="sc_id,t_id,fullname,appoint_id,u_type,b_time_start,b_time_end,b_date,mode,status,booking_reason,added_date,updated_date";
 					$u_type    = 'student';
 					$values    = "'".$sc_id."',
 								'".$t_id."',
+								'".$fullname."',
 								'".$st_id."',
 								'".$u_type."',
 								'".trim($time_start)."',

@@ -1,13 +1,13 @@
-  <?php  include('../includes/inner-header.php');  ?>
+<?php  include('../includes/inner-header.php');  ?>
 <body class="g-sidenav-show  bg-gray-200">
-<?php  include('../includes/ssidebar.php');  
+<?php  include('../includes/gsidebar.php'); 
 if(!$_GET){
-    $url = "sdashboard.php";
+    $url = "gdashboard.php";
     echo "<script>window.location.href='".$url."';</script>";
 }else{
-  include('../classes/students.php');
-  $student = new Students();
-  $result = $student->getScheduleForStudent();
+  include('../classes/guardians.php');
+  $guardian = new Guardians();
+  $result = $guardian->getScheduleForGuardian();
   $result = $result[0];
 
   $timeStart = $result['date']." ".$result['time_start'];

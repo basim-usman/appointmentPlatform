@@ -158,6 +158,17 @@ switch ($_POST['function_to_run']) {
                 echo  json_encode(array("data" => "false"));
             }     
         break;
+        case 'registerAdmin': 
+            $result = $admin->registerAdmin();
+
+            if($result)
+            {
+                echo  json_encode(array("data" => "true"));
+            }else{
+                echo  json_encode(array("data" => "false"));
+            }     
+        break;
+        
         case 'addNews': 
             $result = $admin->addNews();
 
