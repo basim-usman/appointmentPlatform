@@ -59,13 +59,13 @@ if(!$_GET){
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label"></label>
                     <input type="text" name="timestarts" id="timestarts" class="form-control" placeholder="Time Start" value="<?php  echo date("g:iA ", strtotime($timeStart)); ?> " readonly>
-                     <input type="hidden" name="timestart" id="timestart" class="form-control" placeholder="Time Start" value="<?php  echo $result['time_start']; ?> " readonly>
+                     <input type="hidden" name="timestart" id="timestart" class="form-control" placeholder="Time Start" value="<?php  echo $result['time_start']; ?> " >
                   </div>
                   <center><p style="color: #ff0000; font-weight: bold; font-size: 12px;" id ="timestarterror"> </p></center>
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label"></label>
                     <input type="text" name="timeends" id="timeends" class="form-control" placeholder="Time End" value="<?php  echo date("g:iA ", strtotime($timeEnd)); ?>" readonly="">
-                    <input type="hidden" name="timeend" id="timeend" class="form-control" placeholder="Time End" value="<?php  echo $result['time_end'] ?>" readonly="">
+                    <input type="hidden" name="timeend" id="timeend" class="form-control" placeholder="Time End" value="<?php  echo $result['time_end'] ?>" >
                      <input type="hidden" name="g_id" id="g_id" class="form-control" value="<?php echo $_SESSION['g_id'];?>">
                       <input type="hidden" name="sc_id" id="sc_id" class="form-control" value="<?php echo $result['sc_id'];?>">
                      <input type="hidden" name="status" id="status" class="form-control" value="booked">
@@ -86,6 +86,11 @@ if(!$_GET){
                     <label class="form-label"></label>
                     <input type="time" name="stimeend" id="stimeend" class="form-control" placeholder="Time End" required>
                   </div>
+                  <div class="input-group input-group-outline my-3">
+                    <label class="form-label"></label>
+                    <textarea type="text" class="form-control" id="bookingReason" name="bookingReason" required="" placeholder="Concern" ></textarea>
+                  </div>
+                   <center><p style="color: #ff0000; font-weight: bold; font-size: 12px;" id ="descriptionerror2"> </p></center>
                  
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label"></label>

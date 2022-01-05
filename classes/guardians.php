@@ -77,6 +77,69 @@ class Guardians extends DbAccess {
 
 		# code...
 	}
+	public function scanKidMail()
+	{
+		
+		$table = "students";
+		$attribute = "email";
+		$value =$_POST['data']['kidemail'];
+		$availablityCheck = "SELECT * FROM $table WHERE $attribute ='$value'";
+	
+		$result = mysqli_query($this->DBlink,$availablityCheck);
+
+		if($result)
+		{
+			if(mysqli_num_rows($result) > 0)
+			{	
+				$result = mysqli_fetch_assoc($result);
+				
+				$table2 = "guardians";
+				$attribute2 = "relation_id";
+				$value2 =$result['st_id'];
+				$availablityCheck = "SELECT * FROM $table2 WHERE $attribute2 ='$value2'";
+				
+				$result = mysqli_query($this->DBlink,$availablityCheck);
+
+				if($result)
+				{
+					if(mysqli_num_rows($result) > 0)
+					{	
+						$result =array();
+						$result['state']="false";
+						$result['error']=$value." guardian already exist";
+						return $result;
+					}else{
+						$result =array();
+						$result['state']="true";
+						$result['kidId']=$value2;
+						$result['error']="Successfully Updated";
+						return $result;
+					}
+
+
+				}else{
+						$result =array();
+						$result['state']="false";
+						$result['error']="No Record For ".$value;
+						return $result;
+				}	
+
+
+			}else{
+				$result =array();
+						$result['state']="false";
+						$result['error']="No Record For ".$value." email ";
+						return $result;
+			}
+		}else{
+				return false;
+			}
+					
+
+		
+
+				
+	}
 	public function scanMailUpdate()
 	{
 
@@ -103,14 +166,14 @@ class Guardians extends DbAccess {
 
 	public function guardianLetMeIn()
 	{
-
+	
 		if($this->guardianRegisterFeed()){
 			
 
 			$table = "guardians";
 
 
-			$attribute ="username,first_name,last_name,email,password,password_text,phone_number,address,status,added_date,updated_date";
+			$attribute ="username,first_name,last_name,email,password,password_text,phone_number,address,status,relation_id,added_date,updated_date";
 						
 				$values    = "'".trim($_POST['data']['username'])."',
 							'".trim($_POST['data']['first_name'])."',
@@ -121,6 +184,7 @@ class Guardians extends DbAccess {
 							'".trim($_POST['data']['phone_number'])."',
 							'".trim($_POST['data']['address'])."',
 							'".trim($_POST['data']['status'])."',
+							'".trim($_POST['data']['relation_id'])."',
 							'".date("Y-m-d")."',
 							 NULL";
 
@@ -180,6 +244,10 @@ class Guardians extends DbAccess {
 		}	
 
 		if($_POST['data']['status'] == "" || empty($_POST['data']['status'] )){
+
+				$state = false;
+		}	
+		if($_POST['data']['relation_id'] == "" || empty($_POST['data']['relation_id'] )){
 
 				$state = false;
 		}	
@@ -269,7 +337,7 @@ class Guardians extends DbAccess {
 	 	{
 
 	 		$table  		 = "guardians";
-	 		$condAttFirst    = "username";
+	 		$condAttFirst    = "email";
 	 		$condValueFirst  = trim($_POST['data']['username']);
 	 		$condAttSecond   = "password";
 	 		$condValueSecond = md5(trim($_POST['data']['password']));
@@ -465,6 +533,8 @@ class Guardians extends DbAccess {
 			$status =strval($_POST['data']['status']);
 			$total =strval($_POST['data']['total']);
 			$t_id =trim($_POST['data']['t_id']);
+			$bookingReason =trim($_POST['data']['bookingReason']);
+			
 			$time_in_12_hour_format  = date("g:i a", strtotime($time_start));
 			$divHour = explode(" ",$time_in_12_hour_format);
 			$endTime = strtotime("+15 minutes", strtotime($time_in_12_hour_format));
@@ -515,7 +585,7 @@ class Guardians extends DbAccess {
 			   			 }
 						
 	 				}
-	 				$attribute ="sc_id,t_id,appoint_id,u_type,b_time_start,b_time_end,b_date,mode,status,added_date,updated_date";	
+	 				$attribute ="sc_id,t_id,appoint_id,u_type,b_time_start,b_time_end,b_date,mode,status,booking_reason,added_date,updated_date";	
 					$u_type       = "guardian";
 					$values    = "'".$sc_id."',
 								'".$t_id."',
@@ -526,6 +596,7 @@ class Guardians extends DbAccess {
 								'".trim($date)."',
 								'".trim($mode)."',
 								'".trim($status)."',
+								'".trim($bookingReason)."',
 								'".date("Y-m-d")."',
 								 NULL";
 
@@ -559,7 +630,7 @@ class Guardians extends DbAccess {
 					
 				}else{
 					
-					$attribute ="sc_id,t_id,appoint_id,u_type,b_time_start,b_time_end,b_date,mode,status,added_date,updated_date";	
+					$attribute ="sc_id,t_id,appoint_id,u_type,b_time_start,b_time_end,b_date,mode,status,booking_reason,added_date,updated_date";	
 					$u_type       = "guardian";
 					$values    = "'".$sc_id."',
 								'".$t_id."',
@@ -570,6 +641,7 @@ class Guardians extends DbAccess {
 								'".trim($date)."',
 								'".trim($mode)."',
 								'".trim($status)."',
+								'".trim($bookingReason)."',
 								'".date("Y-m-d")."',
 								 NULL";
 
@@ -644,6 +716,10 @@ class Guardians extends DbAccess {
 		}	
 
 		if($_POST['data']['mode'] == "" || empty($_POST['data']['mode'] )){
+
+				$state = false;
+		}	
+		if($_POST['data']['bookingReason'] == "" || empty($_POST['data']['bookingReason'] )){
 
 				$state = false;
 		}	

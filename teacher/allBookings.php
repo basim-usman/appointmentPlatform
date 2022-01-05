@@ -46,7 +46,7 @@ $result = $teacher->getTeacherBookings();
 
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Teacher</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Student/Guardian</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Detials/Notes</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Concern</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Start Time</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">End Time</th>
@@ -92,7 +92,7 @@ $result = $teacher->getTeacherBookings();
                                 </div>
                               </td>
                               <td>
-                                <p class="text-xs font-weight-bold mb-0"><?php echo $row['description']; ?></p>
+                                <p class="text-xs font-weight-bold mb-0"><?php echo $row['booking_reason']; ?></p>
                                
                               </td>
                               

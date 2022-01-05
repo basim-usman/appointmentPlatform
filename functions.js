@@ -47,7 +47,7 @@ function scanUsernameStudent (){
 function scanStudentMail(){
   var email =  $("#email").val();
 
-  if (/@gmail\.com$/.test(email)) 
+  if (/@calamba\.sti\.edu\.ph/.test(email)) 
   {
      $("#emailerror").text("");
      $( "#reg_btn" ).prop( "disabled", false );
@@ -81,77 +81,9 @@ function scanStudentMail(){
                     }
                 }
               );
-  }else if(/@yahoo\.com$/.test(email)){
-    $("#emailerror").text("");
-     $( "#reg_btn" ).prop( "disabled", false );
-
-          var json_data = {email : email }; // end json_data
-
-                $.post(
-                 "../ajax.php",
-                {
-                  function_to_run: "scanStudentMail",
-                  data: json_data,
-                },
-                function (response) {
-                  var res = JSON.parse(response);
-                 
-                   if (res.data == "true")
-                    {
-
-                       $("#emailerror").text("");
-                       $("#emailerror").hide();
-                       $("#reg_btn").removeAttr("disabled");
-
-                             
-                    } else if (res.data == "false" ) {
-
-                       $("#emailerror").text(email+" Already exist");
-                       $("#emailerror").show();
-                        $("#reg_btn").attr("disabled", true);
-            
-                    
-                    }
-                }
-              );
-
-  }else if(/@outlook\.com$/.test(email)){
-    $("#emailerror").text("");
-     $( "#reg_btn" ).prop( "disabled", false );
-
-          var json_data = {email : email }; // end json_data
-
-                $.post(
-                 "../ajax.php",
-                {
-                  function_to_run: "scanStudentMail",
-                  data: json_data,
-                },
-                function (response) {
-                  var res = JSON.parse(response);
-                 
-                   if (res.data == "true")
-                    {
-
-                       $("#emailerror").text("");
-                       $("#emailerror").hide();
-                       $("#reg_btn").removeAttr("disabled");
-
-                             
-                    } else if (res.data == "false" ) {
-
-                       $("#emailerror").text(email+" Already exist");
-                       $("#emailerror").show();
-                        $("#reg_btn").attr("disabled", true);
-            
-                    
-                    }
-                }
-              );
-
   }else{
 
-      $("#emailerror").text("Please provide valid email (gmail,yahoo,outlook)");
+      $("#emailerror").text("Please provide your school valid email (calamba.sti.edu.ph)");
       $( "#reg_btn" ).prop( "disabled", true );
 
   }
@@ -359,7 +291,6 @@ function cancelSchedule(param){
 function validateAppointmentTime()
 {
     //  7am  - 8pm
-    console.log(" Basim");
     var hourArray = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20"];
     var realStart = $("#timestart").val();
     var start     = $("#stimestart").val();
@@ -377,7 +308,6 @@ function validateAppointmentTime()
        
     var eHr       = end.split(":");
     eHr           = eHr[0];
-  console.log(sHr);
     if(hourArray.indexOf(sHr) !== -1){
    
           $("#failedNotificationTime").hide();
@@ -408,9 +338,13 @@ function validateAppointmentTime()
 function validateAppointmentTimeGuardian()
 {
     //  7am  - 8pm
-
     var hourArray = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20"];
     var realStart = $("#timestart").val();
+   
+    var loopStart = realStart.split(":");
+  
+    loopStart      = parseInt(loopStart[0]); 
+   
     var start     = $("#stimestart").val();
     start         = convertTo24Hour(start.toLowerCase());
     realStart     = convertTo12Hour(realStart.trim());
@@ -420,15 +354,29 @@ function validateAppointmentTimeGuardian()
 
     var end       = $("#stimeend").val();
     var realEnd   =$("#timeend").val();
+    var loopEnd = realEnd.split(":");
+    loopEnd     = parseInt(loopEnd[0]);
      
         end       = convertTo24Hour(end.toLowerCase());
         realEnd   = convertTo12Hour(realEnd.trim());
        
     var eHr       = end.split(":");
     eHr           = eHr[0];
-     
-   
-    if(hourArray.indexOf(sHr) !== -1){
+    var hourArray1 = [];
+    var differLoop = loopEnd-loopStart;
+    
+     for(var i = 0; i<=differLoop;i++ ){
+        if(loopStart<10){
+          hourArray1[i]= "0"+loopStart;
+        }else{
+           hourArray1[i]= loopStart;
+        }
+        
+        loopStart++;
+
+     }
+  
+    if(hourArray1.indexOf(sHr) !== -1){
    
           $("#failedNotificationTime").hide();
           $("#failedNotificationTime").css('display','none');
@@ -441,7 +389,7 @@ function validateAppointmentTimeGuardian()
        $("#failedNotificationTime").show();
       }
 
-     if(hourArray.indexOf(eHr) !== -1){
+     if(hourArray1.indexOf(eHr) !== -1){
           $("#failedNotificationTime").hide();
           $("#failedNotificationTime").css('display','none');
           $("#reg_btn").attr('disabled',false);
@@ -465,7 +413,7 @@ function SumHours(smon,fmon) {
     smon = ConvertToSeconds(smon);
     fmon = ConvertToSeconds(fmon);
     diff = Math.abs( fmon - smon ) ;
-    console.log(diff);
+   
     if(diff < 900){
         // $("#failedText").text("");
         $("#failedTextTime").text("Appointment Minimum Time : 15 Mins");
@@ -881,7 +829,7 @@ var endMeetEndTimeSeconds = ConvertToSeconds(endMeetEndTime);
    var answer = confirm("You wanna end before time?");
 
    if(answer == true){
-      console.log("common baby");
+
        var json_data ={b_id:param1,appoint_id:param2,u_type:param3,time_end:currentTime,status:"done"};
        $.post(
             "../ajax.php",
@@ -1579,22 +1527,28 @@ function guardianValidate(){
   var phone_number = $("#phone_number").val();
   var cpassword    = $("#cpassword").val();
   var address      = $("#address").val();
+  var kidemail     = $("#kidemail").val();
   var status       = "open";
+  var kidID        = $("#kidID").val();
+
     $("#firstnameerror").hide(); 
     $("#lastnameerror").hide(); 
     $("#usernameerror").hide();
     $("#emailerror").hide(); 
+    $("#kidemailerror").hide();
     $("#addresserror").hide(); 
     $("#phoneerror").hide();
     $("#passworderror").hide();
     $("#confirmpassworderror").hide();
+
   
-  if (fname != "" && lname != "" && username != ""  && email!= ""  && phone_number!= ""  && address != "" && password != "" && cpassword != ""  ) 
+  if (fname != "" && lname != "" && username != ""  && email!= "" && kidemail!="" && phone_number!= ""  && address != "" && password != "" && cpassword != ""  && kidID!="") 
   {
     $("#firstnameerror").hide(); 
     $("#lastnameerror").hide(); 
     $("#usernameerror").hide();
     $("#emailerror").hide(); 
+    $("#kidemailerror").hide();
     $("#addresserror").hide(); 
     $("#phoneerror").hide();
     $("#passworderror").hide();
@@ -1617,6 +1571,12 @@ function guardianValidate(){
   }else if(email == ""){
     $("#emailerror").text("Provide Valid Email");
     $("#emailerror").show(); 
+  }else if(kidemail == ""){
+    $("#kidemailerror").text("Provide Valid Student Email");
+    $("#kidemailerror").show(); 
+  }else if(kidID == ""){
+    $("#kidemailerror").text(kidemail+ " guardian already exist");
+    $("#kidemailerror").show(); 
   }else if(address == ""){
     $("#addresserror").text("Provide Valid Address");
     $("#addresserror").show(); 
@@ -1626,16 +1586,60 @@ function guardianValidate(){
   }else if(password =="") {
     $("#passworderror").text("Provide Valid Password");
     $("#passworderror").show();
-
   }else if(cpassword == ""){
     $("#confirmpassworderror").text("Provide Valid Confirm Password");
     $("#confirmpassworderror").show();
 
   }
-}
 
+}
+function scanKidMail(){
+   var kidemail     = $("#kidemail").val();
+  if (/@calamba\.sti\.edu\.ph/.test(kidemail)) 
+  {
+     $("#kidemailerror").text("");
+     $( "#reg_btn" ).prop( "disabled", false );
+
+          var json_data = {kidemail : kidemail }; // end json_data
+
+                $.post(
+                 "../ajax.php",
+                {
+                  function_to_run: "scanKidMail",
+                  data: json_data,
+                },
+                function (response) {
+                  var res = JSON.parse(response);
+                  console.log(res);
+                   if (res.data == "true")
+                    {
+                       $("#kidID").val(res.kidID);
+                       $("#kidemailerror").text("");
+                       $("#kidemailerror").hide();
+                       $("#reg_btn").removeAttr("disabled");
+
+                             
+                    } else if (res.data == "false" ) {
+
+                       // $("#kidemailerror").text("Guardian Already Exist For "+kidemail);
+                      $("#kidemailerror").text(res.error);
+                       $("#kidemailerror").show();
+                        $("#reg_btn").attr("disabled", true);
+            
+                    
+                    }
+                }
+              );
+  }else{
+
+      $("#kidemailerror").text("Please provide your school valid email (calamba.sti.edu.ph)");
+      $( "#reg_btn" ).prop( "disabled", true );
+
+  }
+}
 function guardianRegister(fname,lname,username,email,phone_number,address,password,status) {
   // body...
+  var kidID = $("#kidID").val();
   var json_data = { first_name   : fname,
                     last_name    : lname,
                     username     : username,
@@ -1643,7 +1647,9 @@ function guardianRegister(fname,lname,username,email,phone_number,address,passwo
                     phone_number : phone_number,
                     address      : address,
                     password     : password,
-                    status       : status
+                    status       : status,
+                    relation_id  : kidID
+
                   }; // end json_data
 
                  $.post(
@@ -1732,20 +1738,21 @@ function guardianAuth() {
 }
 
 function bookScheduleGuardian(){
-  var date         = $("#schedule_date").val();
-  var sc_id        = $("#sc_id").val();
-  var g_id         = $("#g_id").val();
-  var mode         = $("#mode").val();
-  var time_start   = $("#stimestart").val();
-  var time_end     = $("#stimeend").val();
-  var status       = $("#status").val();
-  var total        = $("#total").val();
-  var t_id         = $("#t_id").val();
+  var date          = $("#schedule_date").val();
+  var sc_id         = $("#sc_id").val();
+  var g_id          = $("#g_id").val();
+  var mode          = $("#mode").val();
+  var time_start    = $("#stimestart").val();
+  var time_end      = $("#stimeend").val();
+  var status        = $("#status").val();
+  var total         = $("#total").val();
+  var t_id          = $("#t_id").val();
+  var bookingReason = $("#bookingReason").val();
 
   $("#descriptionerror").hide();
   
 
-  if (date !== "" && sc_id !== ""&& g_id !== ""&& mode !== "" && status !== "" && total !== "" && t_id !== "") {
+  if (date !== "" && sc_id !== ""&& g_id !== ""&& mode !== "" && status !== "" && total !== "" && t_id !== "" && bookingReason!="") {
 
     $("#descriptionerror").hide();
   
@@ -1759,7 +1766,8 @@ function bookScheduleGuardian(){
                       mode: mode,
                       status:status,
                       total:total,
-                      t_id:t_id
+                      t_id:t_id,
+                      bookingReason:bookingReason
                     }; // end json_data
 
      $.post(
@@ -1848,7 +1856,11 @@ function bookScheduleGuardian(){
   }else if(mode == ""){
     $("#descriptionerror").text("Please Select Valid Mode");
     $("#descriptionerror").show(); 
+  }else if(bookingReason == ""){
+    $("#descriptionerror2").text("Please Write Valid Concern");
+    $("#descriptionerror2").show(); 
   }
+
 
 
 }

@@ -325,6 +325,26 @@ switch ($_POST['function_to_run']) {
 
             }       
         break;
+        case 'scanKidMail': 
+             
+            $result = $guardian->scanKidMail();
+           
+            if($result)
+            {
+                if($result['state'] == 'true')
+                { 
+                        echo  json_encode(array("data" => "true","error" => $result['error'],"kidID" => $result['kidId']));
+                }else{
+
+                        echo  json_encode(array("data" => "false","error" => $result['error']));
+                }     
+                   
+
+            }else{
+                 echo  json_encode(array("data" => "false","error" => $result['error']));
+
+            }       
+        break;        
         case 'registerGuardian': 
             $result = $guardian->GuardianLetMeIn();
      

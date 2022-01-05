@@ -365,7 +365,7 @@ class Students extends DbAccess {
 	 	{
 
 	 		$table  		 = "students";
-	 		$condAttFirst    = "username";
+	 		$condAttFirst    = "email";
 	 		$condValueFirst  = trim($_POST['data']['username']);
 	 		$condAttSecond   = "password";
 	 		$condValueSecond = md5(trim($_POST['data']['password']));

@@ -60,7 +60,14 @@
                       <input type="email" id="email" name="email" class="form-control" placeholder="Email" onkeyup="scanGuardianMail();" required>
                     </div>
                      <center><p style="color: #ff0000; font-weight: bold; font-size: 12px;" id ="emailerror"> </p></center>
-                      <div class="input-group input-group-outline mb-3">
+                    <div class="input-group input-group-outline mb-3">
+                      <label class="form-label"></label>
+                      <input type="email" id="kidemail" name="kidemail" class="form-control" placeholder="Student Email" onkeyup="scanKidMail();" required>
+                      <input type="hidden" id="kidID" name="kidID" class="form-control" value="">
+                      
+                    </div>
+                     <center><p style="color: #ff0000; font-weight: bold; font-size: 12px;" id ="kidemailerror"> </p></center>
+                    <div class="input-group input-group-outline mb-3">
                       <label class="form-label"></label>
                       <input type="text" name="phone_number" id="phone_number" placeholder="Mobile#" class="form-control" onkeyup="scanMobileNumber()" required>
                     </div>
