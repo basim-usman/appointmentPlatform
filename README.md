@@ -1,4 +1,4 @@
-# appointmentPlatform
+# Appointment Platform
 Students,Staff,Facilities Appointment Portal 
 
 
